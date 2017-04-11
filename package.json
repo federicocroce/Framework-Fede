@@ -1,0 +1,45 @@
+{
+  "name": "framework-federico-croce",
+  "version": "1.0.0",
+  "description": "Framework Federico Croce",
+  "author": {
+    "name": "Federico Croce",
+    "email": "ingcrocefederico@gmail.com"
+  },
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "update": "npm i && bower i",
+    "webpack": "npm i -g webpack",
+    "first-run": "npm i -g bower && npm run webpack && npm i && npm link webpack",
+    "build": "webpack --watch --colors",
+    "prod": "NODE_ENV=production webpack -p --config webpack.config.js",
+    "open": "opener http://localhost:8080/index.html",
+    "server": "webpack-dev-server --progress --colors",
+    "dev": "npm run open && npm run server",
+    "deploy": "webpack"
+  },
+  "dependencies": {
+    "gulp-rename": "^1.2.0",
+    "gulp-replace": "^0.4.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.7.7",
+    "babel-cli": "^6.24.1",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "component-webpack-plugin": "^0.2.1",
+    "eslint": "^3.19.0",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "extract-text-webpack-plugin-webpack-2": "^1.0.1",
+    "glob": "^7.1.1",
+    "html-loader": "^0.4.5",
+    "node-sass": "^4.5.2",
+    "opener": "^1.4.3",
+    "reload-html-webpack-plugin": "^0.1.2",
+    "sass-loader": "^6.0.3",
+    "webpack-dev-server": "^2.4.2"
+  }
+}
