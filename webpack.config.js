@@ -1,7 +1,6 @@
 var glob = require("glob");
 var ReloadPlugin = require('reload-html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const extractCSS = new ExtractTextPlugin('stylesheets/[name]-one.css');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer')
 var path = require('path')
 var webpack = require('webpack')
@@ -15,10 +14,20 @@ var config = {
 	},
 
 	resolve: {
-		extensions: ['.js', '.jsx']
+		extensions: ['.js', '.jsx', '.sass', 'css']
 	},
 
 	watch: true,
+
+	watchOptions:
+	{
+		ignored: /node_modules/
+	},
+
+	plugins: [
+		new ExtractTextPlugin("/style/app.css"),
+		new webpack.optimize.UglifyJsPlugin()
+	],
 
 	context: __dirname + '/src', // `__dirname` is root of project and `src` is source
 
@@ -31,9 +40,6 @@ var config = {
 
 	devtool: "eval-source-map", // Default development sourcemap
 
-	plugins: [
-		new ExtractTextPlugin("styles.css")
-	],
 	module: {
 		rules: [
 			{
@@ -52,10 +58,16 @@ var config = {
 			},
 			{
 				test: /\.(sass|scss)$/, //Check for sass or scss file names
+
 				use: [
-					'style-loader',
-					'css-loader',
-					'sass-loader',
+					ExtractTextPlugin.extract({
+						fallback: 'style-loader',
+						//resolve-url-loader may be chained before sass-loader if necessary
+						use: [
+							'style-loader',
+							'css-loader',
+							'sass-loader']
+					})
 				]
 			},
 			{
