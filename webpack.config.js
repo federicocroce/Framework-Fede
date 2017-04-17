@@ -1,12 +1,45 @@
-var glob = require("glob");
 var ReloadPlugin = require('reload-html-webpack-plugin');
-var autoprefixer = require('autoprefixer')
+var autoprefixer = require('autoprefixer');
+var webpackUglifyJsPlugin = require('webpack-uglify-js-plugin');
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 
+const glob = require('glob');
+const PurifyCSSPlugin = require('purifycss-webpack');
+var NODE_MODULES = path.resolve(__dirname, "node_modules");
+
+
+
+
+const isProduction = process.env.NODE_ENV === "production";
+
+var cssDev = [
+	"style-loader", // "style-loader" creates style nodes from JS strings
+	"css-loader",  //"css-loader" translates CSS into CommonJS
+	"sass-loader" // compiles Sass to CSS
+];
+
+var cssProd = ExtractTextPlugin.extract({
+	fallback: "style-loader", // "style-loader" creates style nodes from JS strings
+	use: [
+		"css-loader",  //"css-loader" translates CSS into CommonJS
+		"sass-loader" // compiles Sass to CSS
+	],
+	publicPath: "./dist/style"
+});
+
+
+
+var cssConfig = isProduction ? cssProd : cssDev;
+
+var devtool = isProduction ? "source-map" : "eval-source-map";
+
+console.log('cssConfig: ' , cssConfig);
+console.log('devtool: ' , devtool);
+console.log('PROD: ' , process.env.NODE_ENV === "production");
 
 var config = {
 	entry: path.resolve(__dirname + '/src/js/test.js'),
@@ -24,7 +57,7 @@ var config = {
 
 	watchOptions:
 	{
-		ignored: /node_modules/
+		ignored: NODE_MODULES
 	},
 
 	context: __dirname + '/src', // `__dirname` is root of project and `src` is source
@@ -42,7 +75,7 @@ var config = {
 		rules: [
 			{
 				test: /\.js$/, //Check for all js files
-				exclude: path.resolve(__dirname + '/node_modules/'),
+				exclude: NODE_MODULES,
 				use: [{
 					loader: 'babel-loader'
 				}]
@@ -56,29 +89,24 @@ var config = {
 			},
 			{
 				test: /\.scss$/, //Check for all scss files
-				use: ExtractTextPlugin.extract({
-					fallback: "style-loader", // "style-loader" creates style nodes from JS strings
-					use: [
-						"css-loader",  //"css-loader" translates CSS into CommonJS
-						"sass-loader" // compiles Sass to CSS
-					],
-					publicPath: "./dist/style"
-				})
+				use: cssConfig
+			},
+			{
+				test: /\.css$/, //Check for all scss files
+				use: cssConfig
 			}
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin({
-			filename: "app.css",
-			disable: false,
-			allChunks: true
-		}),
-		new webpack.optimize.UglifyJsPlugin(),
+		
 		new HtmlWebpackPlugin({
 			title: 'My App',
 			filename: './../index.html',
 			template: __dirname + '/src/html/index.html'
 		})
+		// new PurifyCSSPlugin({
+		// 	paths: glob.sync(path.join(__dirname, './src/html/*.html')),
+		// })
 	],
 };
 

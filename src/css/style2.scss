@@ -1,3 +1,11 @@
+<<<<<<< Updated upstream
 body{
     p.pa{ color: yellow;}
+||||||| merged common ancestors
+body{
+    p{ color: yellow;}
+=======
+p {
+    &.pa{color: yellow;}
+>>>>>>> Stashed changes
 }
