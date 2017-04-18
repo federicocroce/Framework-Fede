@@ -16,13 +16,33 @@ var NODE_MODULES = path.resolve(__dirname, "node_modules");
 
 const isProduction = process.env.NODE_ENV === "production";
 
-var cssDev = [
-	"style-loader", // "style-loader" creates style nodes from JS strings
-	"css-loader",  //"css-loader" translates CSS into CommonJS
-	"sass-loader" // compiles Sass to CSS
+var scssDev = [{
+	loader: "style-loader"
+}, {
+	loader: "css-loader", options: {
+		sourceMap: true
+	}
+},
+{
+	loader: 'sass-loader',
+	options: {
+		sourceMap: true,
+		includePaths: [
+			path.resolve(__dirname, 'vendor/zurb/foundation/scss'),
+			path.resolve(__dirname, 'node_modules/motion-ui/src'),
+			path.resolve(__dirname, 'src/css/app.scss')
+		]
+	}
+}
 ];
 
-var cssProd = ExtractTextPlugin.extract({
+// var scssDev = [
+// 	"style-loader", // "style-loader" creates style nodes from JS strings
+// 	"css-loader",  //"css-loader" translates CSS into CommonJS
+// 	"sass-loader" // compiles Sass to CSS
+// ];
+
+var scssProd = ExtractTextPlugin.extract({
 	fallback: "style-loader", // "style-loader" creates style nodes from JS strings
 	use: [
 		"css-loader",  //"css-loader" translates CSS into CommonJS
@@ -33,13 +53,15 @@ var cssProd = ExtractTextPlugin.extract({
 
 
 
-var cssConfig = isProduction ? cssProd : cssDev;
+var cssConfig = isProduction ? scssProd : scssDev;
 
 var devtool = isProduction ? "source-map" : "eval-source-map";
 
-console.log('cssConfig: ' , cssConfig);
-console.log('devtool: ' , devtool);
-console.log('PROD: ' , process.env.NODE_ENV === "production");
+console.log('cssConfig: ', cssConfig);
+console.log('devtool: ', devtool);
+console.log('PROD: ', process.env.NODE_ENV === "production");
+console.log('HTML __dirname', __dirname + '/src/html/index.ejs');
+console.log('HTML SIN __dirname', '/src/html/index.ejs');
 
 var config = {
 	entry: path.resolve(__dirname + '/src/js/test.js'),
@@ -98,12 +120,31 @@ var config = {
 		]
 	},
 	plugins: [
-		
+		new ExtractTextPlugin({
+			filename: "app.css",
+			disable: false,
+			allChunks: true
+		}),
 		new HtmlWebpackPlugin({
 			title: 'My App',
-			filename: './../index.html',
 			template: __dirname + '/src/html/index.html'
-		})
+		}),
+		new webpack.LoaderOptionsPlugin({
+			minimize: false,
+			debug: true,
+			options: {
+				postcss: [
+					autoprefixer({
+						browsers: ['last 2 version', 'Explorer >= 10', 'Android >= 4']
+					})
+				],
+				sassLoader: {
+					includePaths: [
+						path.resolve(__dirname, 'node_modules/sanitize.css/')
+					]
+				}
+			}
+		}),
 		// new PurifyCSSPlugin({
 		// 	paths: glob.sync(path.join(__dirname, './src/html/*.html')),
 		// })
@@ -112,7 +153,7 @@ var config = {
 
 
 if (process.env.NODE_ENV === "production") {
-	config.devtool = ""; // No sourcemap for production
+
 
 	// Add more configuration for production here like
 	// Uglify plugin

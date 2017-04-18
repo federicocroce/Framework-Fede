@@ -11,13 +11,13 @@
   "scripts": {
     "update": "npm i && bower i",
     "webpack": "npm i -g webpack",
-    "first-run": "npm i -g bower && npm run webpack && npm i && npm link webpack",
+    "first-run": "npm i -g bower && npm run webpack && npm i && npm link webpack && npm install -g win-node-env",
     "build": "webpack --watch --colors",
     "prod": "NODE_ENV=production webpack -p --config webpack.config.js",
     "open": "opener http://localhost:8080/index.html",
     "server": "webpack-dev-server --progress --colors",
     "dev": "npm run open && npm run server",
-    "deploy": "npm run clean  && NODE_ENV=production webpack -p --config webpack.config.js",
+    "deploy": "npm run clean  && NODE_ENV=production webpack --config webpack.config.js",
     "clean": "rimraf ./dist/*"
   },
   "dependencies": {
