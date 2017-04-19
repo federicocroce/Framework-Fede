@@ -33,6 +33,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "component-webpack-plugin": "^0.2.1",
     "css-entry-webpack-plugin": "^1.0.0-beta.4",
+    "css-loader": "^0.28.0",
     "eslint": "^3.19.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "extract-text-webpack-plugin-webpack-2": "^1.0.1",
@@ -47,6 +48,7 @@
     "resolve-url-loader": "^2.0.2",
     "rimraf": "^2.6.1",
     "sass-loader": "^6.0.3",
+    "style-loader": "^0.16.1",
     "webpack-dev-server": "^2.4.2",
     "webpack-uglify-js-plugin": "^1.1.9"
   }

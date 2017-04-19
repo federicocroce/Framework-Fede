@@ -16,24 +16,45 @@ var NODE_MODULES = path.resolve(__dirname, "node_modules");
 
 const isProduction = process.env.NODE_ENV === "production";
 
-var scssDev = [{
-	loader: "style-loader"
-}, {
-	loader: "css-loader", options: {
-		sourceMap: true
+// var scssDev = [{
+// 	loader: "style-loader"
+// }, {
+// 	loader: "css-loader", options: {
+// 		sourceMap: true
+// 	}
+// },
+// {
+// 	loader: 'sass-loader',
+// 	options: {
+// 		sourceMap: true,
+// 		includePaths: [
+// 			path.resolve(__dirname, 'vendor/zurb/foundation/scss'),
+// 			path.resolve(__dirname, 'node_modules/motion-ui/src'),
+// 			path.resolve(__dirname, 'src/css/app.scss')
+// 		]
+// 	}
+// }
+// ];
+
+var scssDev = [
+	{
+		loader: "style-loader",
+		options: {
+			sourceMap: true
+		}
+	},
+	{
+		loader: "css-loader",
+		options: {
+			sourceMap: true
+		}
+	},
+	{
+		loader: "sass-loader",
+		options: {
+			sourceMap: true
+		}
 	}
-},
-{
-	loader: 'sass-loader',
-	options: {
-		sourceMap: true,
-		includePaths: [
-			path.resolve(__dirname, 'vendor/zurb/foundation/scss'),
-			path.resolve(__dirname, 'node_modules/motion-ui/src'),
-			path.resolve(__dirname, 'src/css/app.scss')
-		]
-	}
-}
 ];
 
 // var scssDev = [
@@ -122,7 +143,7 @@ var config = {
 	plugins: [
 		new ExtractTextPlugin({
 			filename: "app.css",
-			disable: false,
+			disable: !isProduction,
 			allChunks: true
 		}),
 		new HtmlWebpackPlugin({
