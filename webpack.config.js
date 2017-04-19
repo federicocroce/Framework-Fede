@@ -16,26 +16,6 @@ var NODE_MODULES = path.resolve(__dirname, "node_modules");
 
 const isProduction = process.env.NODE_ENV === "production";
 
-// var scssDev = [{
-// 	loader: "style-loader"
-// }, {
-// 	loader: "css-loader", options: {
-// 		sourceMap: true
-// 	}
-// },
-// {
-// 	loader: 'sass-loader',
-// 	options: {
-// 		sourceMap: true,
-// 		includePaths: [
-// 			path.resolve(__dirname, 'vendor/zurb/foundation/scss'),
-// 			path.resolve(__dirname, 'node_modules/motion-ui/src'),
-// 			path.resolve(__dirname, 'src/css/app.scss')
-// 		]
-// 	}
-// }
-// ];
-
 var scssDev = [
 	{
 		loader: "style-loader",
@@ -52,7 +32,7 @@ var scssDev = [
 	{
 		loader: "sass-loader",
 		options: {
-			sourceMap: true
+			sourceMap: false
 		}
 	}
 ];
@@ -85,7 +65,7 @@ console.log('HTML __dirname', __dirname + '/src/html/index.ejs');
 console.log('HTML SIN __dirname', '/src/html/index.ejs');
 
 var config = {
-	entry: path.resolve(__dirname + '/src/js/test.js'),
+	entry: path.resolve(__dirname + '/src/main/app.js'),
 
 	output: {
 		path: __dirname + '/dist', // `dist` is the destination
@@ -107,7 +87,7 @@ var config = {
 
 	devServer: {
 		host: '0.0.0.0',
-		port: 8080,
+		port: 1234,
 		inline: true,
 		contentBase: __dirname + '/dist',
 	},
@@ -148,7 +128,7 @@ var config = {
 		}),
 		new HtmlWebpackPlugin({
 			title: 'My App',
-			template: __dirname + '/src/html/index.html'
+			template: __dirname + '/src/main/index.html'
 		}),
 		new webpack.LoaderOptionsPlugin({
 			minimize: false,
