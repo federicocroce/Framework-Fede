@@ -58,11 +58,11 @@ var cssConfig = isProduction ? scssProd : scssDev;
 
 var devtool = isProduction ? "source-map" : "eval-source-map";
 
-console.log('cssConfig: ', cssConfig);
-console.log('devtool: ', devtool);
-console.log('PROD: ', process.env.NODE_ENV === "production");
-console.log('HTML __dirname', __dirname + '/src/html/index.ejs');
-console.log('HTML SIN __dirname', '/src/html/index.ejs');
+// console.log('cssConfig: ', cssConfig);
+// console.log('devtool: ', devtool);
+// console.log('PROD: ', process.env.NODE_ENV === "production");
+// console.log('HTML __dirname', __dirname + '/src/html/index.ejs');
+// console.log('HTML SIN __dirname', '/src/html/index.ejs');
 
 var config = {
 	entry: path.resolve(__dirname + '/src/main/app.js'),
@@ -98,7 +98,7 @@ var config = {
 		rules: [
 			{
 				test: /\.js$/, //Check for all js files
-				exclude: NODE_MODULES,
+				exclude: /(node_modules|bower_components)/,
 				use: [{
 					loader: 'babel-loader'
 				}]
@@ -146,6 +146,8 @@ var config = {
 				}
 			}
 		}),
+		new webpack.HotModuleReplacementPlugin(),
+		new webpack.NoEmitOnErrorsPlugin()
 		// new PurifyCSSPlugin({
 		// 	paths: glob.sync(path.join(__dirname, './src/html/*.html')),
 		// })

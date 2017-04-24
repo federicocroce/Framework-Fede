@@ -1,3 +1,7 @@
+import React from 'react';
+import {render} from 'react-dom';
+import App from '../app/appTable.js';
+
 require('./style/app.scss');
 
-console.log("Croce  asd Fede s");
+render(<App />, document.getElementById('app'));
