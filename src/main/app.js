@@ -1,7 +1,7 @@
 import React from 'react';
-import {render} from 'react-dom';
-import App from '../app/appTable.js';
+import { render } from 'react-dom';
+import Index from "../Components/Sections/Index"
 
 require('./style/app.scss');
 
-render(<App />, document.getElementById('app'));
+render(<Index />, document.getElementById('app'));

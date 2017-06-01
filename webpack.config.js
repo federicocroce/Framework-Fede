@@ -99,9 +99,9 @@ var config = {
 			{
 				test: /\.js$/, //Check for all js files
 				exclude: /(node_modules|bower_components)/,
-				use: [{
-					loader: 'babel-loader'
-				}]
+				loaders: [
+					'babel-loader?presets[]=react,presets[]=es2015,presets[]=stage-0'
+				]
 			},
 			{
 				test: /\.html$/, //Check for all html files
